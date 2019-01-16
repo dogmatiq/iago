@@ -1,4 +1,4 @@
-# Dapper
+# Iago
 
 [![Build Status](http://img.shields.io/travis/com/dogmatiq/iago/master.svg)](https://travis-ci.com/dogmatiq/iago)
 [![Code Coverage](https://img.shields.io/codecov/c/github/dogmatiq/iago/master.svg)](https://codecov.io/github/dogmatiq/iago)

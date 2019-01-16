@@ -18,8 +18,8 @@ The format is based on [Keep a Changelog], and this project adheres to
 - Initial release
 
 <!-- references -->
-[Unreleased]: https://github.com/dogmatiq/dapper
-[0.1.0]: https://github.com/dogmatiq/dapper/releases/tag/v0.1.0
+[Unreleased]: https://github.com/dogmatiq/iago
+[0.1.0]: https://github.com/dogmatiq/iago/releases/tag/v0.1.0
 
 <!-- version template
 ## [0.0.1] - YYYY-MM-DD

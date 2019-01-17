@@ -2,7 +2,7 @@ package iago_test
 
 import (
 	"bytes"
-	"strings"
+	"io"
 	"testing"
 
 	. "github.com/dogmatiq/iago"
@@ -10,126 +10,50 @@ import (
 )
 
 func TestMustWrite(t *testing.T) {
-	expected := "foo"
-	var b strings.Builder
-
-	n := MustWrite(
-		&b,
-		[]byte(expected),
+	iotest.TestWrite(
+		t,
+		func(w io.Writer) int {
+			return MustWrite(w, []byte("foo"))
+		},
+		"foo",
 	)
-
-	if b.String() != expected {
-		t.Fatalf("unexpected content written: %s", b.String())
-	}
-
-	if n != len(expected) {
-		t.Fatalf("expected number of bytes to be %d, not %d", len(expected), n)
-	}
-}
-
-func TestMustWrite_PanicsAndRecovers(t *testing.T) {
-	fn := func() (err error) {
-		defer Recover(&err)
-
-		MustWrite(
-			iotest.NewFailer(nil, nil),
-			[]byte("foo"),
-		)
-
-		return
-	}
-
-	if fn() != iotest.ErrWrite {
-		t.Fatal("expected error did not occur")
-	}
 }
 
 func TestMustWriteString(t *testing.T) {
-	expected := "foo"
-	var b strings.Builder
-
-	n := MustWriteString(
-		&b,
-		expected,
+	iotest.TestWrite(
+		t,
+		func(w io.Writer) int {
+			return MustWriteString(w, "foo")
+		},
+		"foo",
 	)
-
-	if b.String() != expected {
-		t.Fatalf("unexpected content written: %s", b.String())
-	}
-
-	if n != len(expected) {
-		t.Fatalf("expected number of bytes to be %d, not %d", len(expected), n)
-	}
-}
-
-func TestMustWriteString_PanicsAndRecovers(t *testing.T) {
-	fn := func() (err error) {
-		defer Recover(&err)
-
-		MustWriteString(
-			iotest.NewFailer(nil, nil),
-			"foo",
-		)
-
-		return
-	}
-
-	if fn() != iotest.ErrWrite {
-		t.Fatal("expected error did not occur")
-	}
 }
 
 func TestMustWriteTo(t *testing.T) {
-	expected := "foo"
-	var b strings.Builder
-
-	n := MustWriteTo(
-		&b,
-		bytes.NewBuffer([]byte(expected)),
+	iotest.TestWrite(
+		t,
+		func(w io.Writer) int {
+			return MustWriteTo(
+				w,
+				bytes.NewBuffer([]byte("foo")),
+			)
+		},
+		"foo",
 	)
-
-	if b.String() != expected {
-		t.Fatalf("unexpected content written: %s", b.String())
-	}
-
-	if n != len(expected) {
-		t.Fatalf("expected number of bytes to be %d, not %d", len(expected), n)
-	}
 }
 
-func TestMustWriteTo_PanicsAndRecovers(t *testing.T) {
-	fn := func() (err error) {
-		defer Recover(&err)
-
-		MustWriteTo(
-			iotest.NewFailer(nil, nil),
-			bytes.NewBuffer([]byte("foo")),
-		)
-
-		return
-	}
-
-	if fn() != iotest.ErrWrite {
-		t.Fatal("expected error did not occur")
-	}
-}
-
-func TestMustFprintf_PanicsAndRecovers(t *testing.T) {
-	fn := func() (err error) {
-		defer Recover(&err)
-
-		MustFprintf(
-			iotest.NewFailer(nil, nil),
-			"foo %s",
-			"bar",
-		)
-
-		return
-	}
-
-	if fn() != iotest.ErrWrite {
-		t.Fatal("expected error did not occur")
-	}
+func TestMustFprintf(t *testing.T) {
+	iotest.TestWrite(
+		t,
+		func(w io.Writer) int {
+			return MustFprintf(
+				w,
+				"foo %s",
+				"bar",
+			)
+		},
+		"foo bar",
+	)
 }
 
 func TestRecover_DoesNotRecoverFromOtherPanics(t *testing.T) {

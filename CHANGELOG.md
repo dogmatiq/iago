@@ -11,7 +11,7 @@ The format is based on [Keep a Changelog], and this project adheres to
 
 ## [Unreleased]
 
-- Next release
+- Add `ioutil.TestWriteXXX()` helpers for testing write operations
 
 ## [0.1.0] - 2019-01-16
 

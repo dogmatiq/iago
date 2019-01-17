@@ -7,7 +7,6 @@ import (
 )
 
 func TestFailer_Read(t *testing.T) {
-
 	f := NewFailer(nil, nil)
 	n, err := f.Read(nil)
 

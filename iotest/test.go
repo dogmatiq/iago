@@ -3,35 +3,30 @@ package iotest
 import (
 	"io"
 	"strings"
-	"testing"
 
 	"github.com/dogmatiq/iago"
 )
 
+// TestingT is the interface via which Iago's test functions consume Go's
+// *testing.T type.
+type TestingT interface {
+	Fatal(...interface{})
+	Fatalf(string, ...interface{})
+}
+
 // TestWrite runs subtests that perform success and failure tests of fn.
 func TestWrite(
-	t *testing.T,
+	t TestingT,
 	fn func(w io.Writer) int,
 	l ...string,
 ) {
-	t.Run(
-		"success",
-		func(t *testing.T) {
-			TestWriteSuccess(t, fn, l...)
-		},
-	)
-
-	t.Run(
-		"failure",
-		func(t *testing.T) {
-			TestWriteFailure(t, fn)
-		},
-	)
+	TestWriteSuccess(t, fn, l...)
+	TestWriteFailure(t, fn)
 }
 
 // TestWriteSuccess calls fn() and verifies that it writes the lines of text in l to w.
 func TestWriteSuccess(
-	t *testing.T,
+	t TestingT,
 	fn func(w io.Writer) int,
 	l ...string,
 ) {
@@ -70,7 +65,7 @@ func TestWriteSuccess(
 // TestWriteFailure calls fn() and verifies that it propagates write errors
 // caused by the underlying writer.
 func TestWriteFailure(
-	t *testing.T,
+	t TestingT,
 	fn func(w io.Writer) int,
 ) {
 	w := NewFailer(nil, nil)

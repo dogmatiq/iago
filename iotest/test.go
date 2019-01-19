@@ -14,21 +14,20 @@ type TestingT interface {
 	Fatalf(string, ...interface{})
 }
 
-// TestWrite runs subtests that perform success and failure tests of fn.
-func TestWrite(
-	t TestingT,
-	fn func(w io.Writer) int,
-	l ...string,
-) {
-	TestWriteSuccess(t, fn, l...)
-	TestWriteFailure(t, fn)
-}
-
-// TestWriteSuccess calls fn() and verifies that it writes the lines of text in l to w.
+// TestWriteSuccess is a utility for testing that code that writes to an
+// io.Writer produces the correct content and byte counts.
+//
+// fn() is a function that writes to w and returns the number of bytes it writes.
+// It can use the iago.MustXXX() functions to simplify error propagation and
+// byte counting.
+//
+// The test fails immediately if the actual content written does not match the
+// given lines of text, or the byte count returned by fn() does not equal the
+// actual number of bytes written.
 func TestWriteSuccess(
 	t TestingT,
 	fn func(w io.Writer) int,
-	l ...string,
+	lines ...string,
 ) {
 	var w strings.Builder
 
@@ -42,7 +41,7 @@ func TestWriteSuccess(
 		t.Fatal(err)
 	}
 
-	expect := strings.Join(l, "\n")
+	expect := strings.Join(lines, "\n")
 	actual := w.String()
 
 	if actual != expect {
@@ -62,11 +61,16 @@ func TestWriteSuccess(
 	}
 }
 
-// TestWriteFailure calls fn() and verifies that it propagates write errors
-// caused by the underlying writer.
+// TestWriteFailure is a utility for testing that code that writes to an
+// io.Writer propagates errors that are caused by that writer.
+//
+// fn() is a function that writes to w. It can use the iago.MustXXX() propagate
+// errors. w is a writer that intentionally fails.
+//
+// The test fails immediately if fn() does not propagate the error caused by w.
 func TestWriteFailure(
 	t TestingT,
-	fn func(w io.Writer) int,
+	fn func(w io.Writer),
 ) {
 	w := NewFailer(nil, nil)
 
@@ -79,4 +83,15 @@ func TestWriteFailure(
 	if err != ErrWrite {
 		t.Fatal("expected error did not occur")
 	}
+}
+
+// TestWrite is a convenience method for running a TestWriteSuccess() and
+// TestWriteFailure() test against fn.
+func TestWrite(
+	t TestingT,
+	fn func(w io.Writer) int,
+	lines ...string,
+) {
+	TestWriteSuccess(t, fn, lines...)
+	TestWriteFailure(t, func(w io.Writer) { fn(w) })
 }

@@ -11,7 +11,14 @@ The format is based on [Keep a Changelog], and this project adheres to
 
 ## [Unreleased]
 
+### Added
+
 - Add `ioutil.TestWriteXXX()` helpers for testing write operations
+- Add `MustWriteByte()`
+
+### Fixed
+
+- `Indenter.Write()` no longer includes the indent length in the returned byte count
 
 ## [0.1.0] - 2019-01-16
 

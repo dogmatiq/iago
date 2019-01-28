@@ -11,6 +11,12 @@ func MustWrite(w io.Writer, buf []byte) int {
 	return Must(w.Write(buf))
 }
 
+// MustWriteByte calls w.Write([]byte{b}) and returns the number of bytes
+// written or panics if an error occurs.
+func MustWriteByte(w io.Writer, b byte) int {
+	return Must(w.Write([]byte{b}))
+}
+
 // MustWriteString calls io.WriteString(w, s) and returns the number of bytes
 // written or panics if an error occurs.
 func MustWriteString(w io.Writer, s string) int {

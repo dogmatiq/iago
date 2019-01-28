@@ -15,7 +15,8 @@ type TestingT interface {
 }
 
 // TestWriteSuccess is a utility for testing that code that writes to an
-// io.Writer produces the correct content and byte counts.
+// io.Writer, such as an io.WriterTo implementation, produces the correct content
+// and byte counts.
 //
 // fn() is a function that writes to w and returns the number of bytes it writes.
 // It can use the iago.MustXXX() functions to simplify error propagation and
@@ -62,7 +63,8 @@ func TestWriteSuccess(
 }
 
 // TestWriteFailure is a utility for testing that code that writes to an
-// io.Writer propagates errors that are caused by that writer.
+// io.Writer, such as an io.WriterTo implementation, propagates errors that are
+// caused by that writer.
 //
 // fn() is a function that writes to w. It can use the iago.MustXXX() propagate
 // errors. w is a writer that intentionally fails.

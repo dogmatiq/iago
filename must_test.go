@@ -3,107 +3,110 @@ package iago_test
 import (
 	"bytes"
 	"io"
-	"testing"
 
 	. "github.com/dogmatiq/iago"
 	"github.com/dogmatiq/iago/iotest"
+	. "github.com/onsi/ginkgo"
+	. "github.com/onsi/gomega"
 )
 
-func TestMustWrite(t *testing.T) {
-	iotest.TestWrite(
-		t,
-		func(w io.Writer) int {
-			return MustWrite(w, []byte("foo"))
-		},
-		"foo",
-	)
-}
+var _ = Describe("func MustWrite", func() {
+	It("passes the IO test", func() {
+		iotest.TestWrite(
+			GinkgoT(),
+			func(w io.Writer) int {
+				return MustWrite(w, []byte("foo"))
+			},
+			"foo",
+		)
+	})
+})
 
-func TestMustWriteString(t *testing.T) {
-	iotest.TestWrite(
-		t,
-		func(w io.Writer) int {
-			return MustWriteString(w, "foo")
-		},
-		"foo",
-	)
-}
+var _ = Describe("func MustWriteByte", func() {
+	It("passes the IO test", func() {
+		iotest.TestWrite(
+			GinkgoT(),
+			func(w io.Writer) int {
+				return MustWriteByte(w, 'f')
+			},
+			"f",
+		)
+	})
+})
 
-func TestMustWriteTo(t *testing.T) {
-	iotest.TestWrite(
-		t,
-		func(w io.Writer) int {
-			return MustWriteTo(
-				w,
-				bytes.NewBuffer([]byte("foo")),
-			)
-		},
-		"foo",
-	)
-}
+var _ = Describe("func MustWriteString", func() {
+	It("passes the IO test", func() {
+		iotest.TestWrite(
+			GinkgoT(),
+			func(w io.Writer) int {
+				return MustWriteString(w, "foo")
+			},
+			"foo",
+		)
+	})
+})
 
-func TestMustFprintf(t *testing.T) {
-	iotest.TestWrite(
-		t,
-		func(w io.Writer) int {
-			return MustFprintf(
-				w,
-				"foo %s",
-				"bar",
-			)
-		},
-		"foo bar",
-	)
-}
+var _ = Describe("func MustWriteTo", func() {
+	It("passes the IO test", func() {
+		iotest.TestWrite(
+			GinkgoT(),
+			func(w io.Writer) int {
+				return MustWriteTo(
+					w,
+					bytes.NewBuffer([]byte("foo")),
+				)
+			},
+			"foo",
+		)
+	})
+})
 
-func TestRecover_DoesNotRecoverFromOtherPanics(t *testing.T) {
-	var value interface{}
+var _ = Describe("func MustFprintf", func() {
+	It("passes the IO test", func() {
+		iotest.TestWrite(
+			GinkgoT(),
+			func(w io.Writer) int {
+				return MustFprintf(
+					w,
+					"foo %s",
+					"bar",
+				)
+			},
+			"foo bar",
+		)
+	})
+})
 
-	fn := func() {
-		defer func() {
-			value = recover()
+var _ = Describe("func Recover", func() {
+	It("does not recover from unrelated panics", func() {
+		var value interface{}
+
+		func() {
+			defer func() {
+				value = recover()
+			}()
+
+			func() (err error) {
+				defer Recover(&err)
+				panic("<value>") // not a MustPanicSentinel
+			}()
 		}()
 
-		fn := func() (err error) {
+		Expect(value).To(Equal("<value>"))
+	})
+
+	It("does not panic when no panic occurs", func() {
+		err := func() (err error) {
 			defer Recover(&err)
-			panic("<value>")
-		}
-
-		fn()
-	}
-
-	fn()
-
-	if value != "<value>" {
-		t.Fatal("panic value was unexpectedly suppressed")
-	}
-}
-
-func TestRecover_DoesNotPanicWhenNoPanicOccurs(t *testing.T) {
-	fn := func() (err error) {
-		defer Recover(&err)
-		return nil
-	}
-
-	if fn() != nil {
-		t.Fatal("unexpected error was returned")
-	}
-}
-
-func TestRecover_PanicsWhenPassedANilPointer(t *testing.T) {
-	var value interface{}
-
-	fn := func() {
-		defer func() {
-			value = recover()
+			return nil
 		}()
 
-		Recover(nil)
-	}
+		Expect(err).ShouldNot(HaveOccurred())
+	})
 
-	fn()
-
-	if value != "err must be a non-nil pointer" {
-		t.Fatal("Recover() unexpectedly accepted a nil pointer")
-	}
-}
+	It("panics when passed a nil pointer", func() {
+		Expect(func() {
+			Recover(nil)
+		}).To(Panic())
+	})
+})

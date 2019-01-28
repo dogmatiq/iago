@@ -38,7 +38,7 @@ func (w *indenter) Write(buf []byte) (n int, err error) {
 	for len(buf) > 0 {
 		// indent if we're ready to do so
 		if !w.indented {
-			n += iago.MustWrite(w.w, w.prefix)
+			iago.MustWrite(w.w, w.prefix)
 			w.indented = true
 		}
 

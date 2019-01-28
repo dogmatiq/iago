@@ -17,6 +17,7 @@ func TestIndenter(t *testing.T) {
 	n += iago.MustWriteString(w, "ar\n")
 	n += iago.MustWriteString(w, "baz")
 
+	inputLen := 11
 	expected := "    foo\n    bar\n    baz"
 
 	result := b.String()
@@ -30,13 +31,13 @@ func TestIndenter(t *testing.T) {
 		)
 	}
 
-	if n != len(expected) {
+	if n != inputLen {
 		t.Fatalf(
 			"unexpected byte count:\n"+
 				" got: %d\n"+
 				"want: %d",
 			n,
-			len(expected),
+			inputLen,
 		)
 	}
 }

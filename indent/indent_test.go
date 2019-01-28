@@ -1,38 +1,27 @@
 package indent_test
 
 import (
-	"bytes"
-	"testing"
-
 	. "github.com/dogmatiq/iago/indent"
+	. "github.com/onsi/ginkgo"
+	. "github.com/onsi/gomega"
 )
 
-func TestString(t *testing.T) {
-	expected := "    foo\n    bar\n    baz"
-	result := String("foo\nbar\nbaz", "")
+var _ = Describe("func String", func() {
+	It("returns an indented string", func() {
+		Expect(
+			String("foo\nbar\nbaz", ""),
+		).To(Equal(
+			"    foo\n    bar\n    baz",
+		))
+	})
+})
 
-	if result != expected {
-		t.Fatalf(
-			"unexpected indentation:\n"+
-				" got: %#v\n"+
-				"want: %#v",
-			result,
-			expected,
-		)
-	}
-}
-
-func TestBytes(t *testing.T) {
-	expected := []byte("    foo\n    bar\n    baz")
-	result := Bytes([]byte("foo\nbar\nbaz"), nil)
-
-	if !bytes.Equal(result, expected) {
-		t.Fatalf(
-			"unexpected indentation:\n"+
-				" got: %#v\n"+
-				"want: %#v",
-			string(result),
-			string(expected),
-		)
-	}
-}
+var _ = Describe("func Bytes", func() {
+	It("returns an indented byte-slice", func() {
+		Expect(
+			Bytes([]byte("foo\nbar\nbaz"), nil),
+		).To(Equal(
+			[]byte("    foo\n    bar\n    baz"),
+		))
+	})
+})

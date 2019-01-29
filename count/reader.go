@@ -25,7 +25,7 @@ func (r *Reader) Count() int {
 	)
 }
 
-func (r *Reader) Write(buf []byte) (int, error) {
+func (r *Reader) Read(buf []byte) (int, error) {
 	n, err := r.r.Read(buf)
 	atomic.AddInt64(&r.n, int64(n))
 	return n, err

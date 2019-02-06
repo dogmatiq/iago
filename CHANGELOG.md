@@ -9,6 +9,16 @@ The format is based on [Keep a Changelog], and this project adheres to
 [Keep a Changelog]: https://keepachangelog.com/en/1.0.0/
 [Semantic Versioning]: https://semver.org/spec/v2.0.0.html
 
+## [0.4.0] - 2019-02-06
+
+### Added
+
+- Add `Count64()` method to `count.Reader` and `Writer`
+
+### Changed
+
+- **[BC]** Move `iago.MustXXX()` functions to `must.XXX()`
+
 ## [0.3.0] - 2019-01-29
 
 ### Added

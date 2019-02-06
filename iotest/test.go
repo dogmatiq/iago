@@ -4,7 +4,7 @@ import (
 	"io"
 	"strings"
 
-	"github.com/dogmatiq/iago"
+	"github.com/dogmatiq/iago/must"
 )
 
 // TestingT is the interface via which Iago's test functions consume Go's
@@ -33,7 +33,7 @@ func TestWriteSuccess(
 	var w strings.Builder
 
 	n, err := func() (n int, err error) {
-		defer iago.Recover(&err)
+		defer must.Recover(&err)
 		n = fn(&w)
 		return
 	}()
@@ -77,7 +77,7 @@ func TestWriteFailure(
 	w := NewFailer(nil, nil)
 
 	err := func() (err error) {
-		defer iago.Recover(&err)
+		defer must.Recover(&err)
 		fn(w)
 		return
 	}()

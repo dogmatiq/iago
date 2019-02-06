@@ -4,7 +4,7 @@ import (
 	"bytes"
 	"strings"
 
-	"github.com/dogmatiq/iago"
+	"github.com/dogmatiq/iago/must"
 )
 
 // String returns a copy of s with each line indented by p.
@@ -12,7 +12,7 @@ import (
 func String(s, p string) string {
 	var b strings.Builder
 	w := NewIndenter(&b, []byte(p))
-	iago.MustWriteString(w, s)
+	must.WriteString(w, s)
 	return b.String()
 }
 
@@ -21,6 +21,6 @@ func String(s, p string) string {
 func Bytes(buf, p []byte) []byte {
 	var b bytes.Buffer
 	w := NewIndenter(&b, p)
-	iago.MustWrite(w, buf)
+	must.Write(w, buf)
 	return b.Bytes()
 }

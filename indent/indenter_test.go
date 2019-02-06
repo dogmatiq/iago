@@ -3,8 +3,8 @@ package indent_test
 import (
 	"strings"
 
-	"github.com/dogmatiq/iago"
 	. "github.com/dogmatiq/iago/indent"
+	"github.com/dogmatiq/iago/must"
 	. "github.com/onsi/ginkgo"
 	. "github.com/onsi/gomega"
 )
@@ -14,10 +14,10 @@ var _ = Describe("type Indenter", func() {
 		b := &strings.Builder{}
 		w := NewIndenter(b, nil)
 
-		n := iago.MustWriteString(w, "fo")
-		n += iago.MustWriteString(w, "o\nb")
-		n += iago.MustWriteString(w, "ar\n")
-		n += iago.MustWriteString(w, "baz")
+		n := must.WriteString(w, "fo")
+		n += must.WriteString(w, "o\nb")
+		n += must.WriteString(w, "ar\n")
+		n += must.WriteString(w, "baz")
 
 		Expect(
 			b.String(),

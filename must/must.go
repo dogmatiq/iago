@@ -1,37 +1,37 @@
-package iago
+package must
 
 import (
 	"fmt"
 	"io"
 )
 
-// MustWrite calls w.Write(buf) and returns the number of bytes written, or
+// Write calls w.Write(buf) and returns the number of bytes written, or
 // panics if an error occurs.
-func MustWrite(w io.Writer, buf []byte) int {
+func Write(w io.Writer, buf []byte) int {
 	return Must(w.Write(buf))
 }
 
-// MustWriteByte calls w.Write([]byte{b}) and returns the number of bytes
+// WriteByte calls w.Write([]byte{b}) and returns the number of bytes
 // written or panics if an error occurs.
-func MustWriteByte(w io.Writer, b byte) int {
+func WriteByte(w io.Writer, b byte) int {
 	return Must(w.Write([]byte{b}))
 }
 
-// MustWriteString calls io.WriteString(w, s) and returns the number of bytes
+// WriteString calls io.WriteString(w, s) and returns the number of bytes
 // written or panics if an error occurs.
-func MustWriteString(w io.Writer, s string) int {
+func WriteString(w io.Writer, s string) int {
 	return Must(io.WriteString(w, s))
 }
 
-// MustWriteTo calls s.WriteTo(w) and returns the numner of bytes written, or
+// WriteTo calls s.WriteTo(w) and returns the numner of bytes written, or
 // panics if an error occurs.
-func MustWriteTo(w io.Writer, s io.WriterTo) int {
+func WriteTo(w io.Writer, s io.WriterTo) int {
 	return Must64(s.WriteTo(w))
 }
 
-// MustFprintf calls fmt.Fprintf(w, f, v...) and returns the numner of bytes
+// Fprintf calls fmt.Fprintf(w, f, v...) and returns the numner of bytes
 // written, or panics if an error occurs.
-func MustFprintf(w io.Writer, f string, v ...interface{}) int {
+func Fprintf(w io.Writer, f string, v ...interface{}) int {
 	return Must(fmt.Fprintf(w, f, v...))
 }
 
@@ -45,7 +45,7 @@ func Recover(err *error) {
 	}
 
 	switch v := recover().(type) {
-	case MustPanicSentinel:
+	case PanicSentinel:
 		*err = v.Cause
 	case nil:
 		return
@@ -54,9 +54,9 @@ func Recover(err *error) {
 	}
 }
 
-// MustPanicSentinel is a wrapper value used to identify panic's that are caused
+// PanicSentinel is a wrapper value used to identify panic's that are caused
 // by one of the MustXXX() functions.
-type MustPanicSentinel struct {
+type PanicSentinel struct {
 	// Cause is the error that caused the panic.
 	Cause error
 }
@@ -64,7 +64,7 @@ type MustPanicSentinel struct {
 // Must panics if err is non-nil, otherwise it returns n.
 func Must(n int, err error) int {
 	if err != nil {
-		panic(MustPanicSentinel{err})
+		panic(PanicSentinel{err})
 	}
 
 	return n
@@ -73,7 +73,7 @@ func Must(n int, err error) int {
 // Must64 panics if err is non-nil, otherwise it returns n.
 func Must64(n int64, err error) int {
 	if err != nil {
-		panic(MustPanicSentinel{err})
+		panic(PanicSentinel{err})
 	}
 
 	return int(n)

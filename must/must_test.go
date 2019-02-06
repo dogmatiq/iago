@@ -1,57 +1,57 @@
-package iago_test
+package must_test
 
 import (
 	"bytes"
 	"io"
 
-	. "github.com/dogmatiq/iago"
 	"github.com/dogmatiq/iago/iotest"
+	. "github.com/dogmatiq/iago/must"
 	. "github.com/onsi/ginkgo"
 	. "github.com/onsi/gomega"
 )
 
-var _ = Describe("func MustWrite", func() {
+var _ = Describe("func Write", func() {
 	It("passes the IO test", func() {
 		iotest.TestWrite(
 			GinkgoT(),
 			func(w io.Writer) int {
-				return MustWrite(w, []byte("foo"))
+				return Write(w, []byte("foo"))
 			},
 			"foo",
 		)
 	})
 })
 
-var _ = Describe("func MustWriteByte", func() {
+var _ = Describe("func WriteByte", func() {
 	It("passes the IO test", func() {
 		iotest.TestWrite(
 			GinkgoT(),
 			func(w io.Writer) int {
-				return MustWriteByte(w, 'f')
+				return WriteByte(w, 'f')
 			},
 			"f",
 		)
 	})
 })
 
-var _ = Describe("func MustWriteString", func() {
+var _ = Describe("func WriteString", func() {
 	It("passes the IO test", func() {
 		iotest.TestWrite(
 			GinkgoT(),
 			func(w io.Writer) int {
-				return MustWriteString(w, "foo")
+				return WriteString(w, "foo")
 			},
 			"foo",
 		)
 	})
 })
 
-var _ = Describe("func MustWriteTo", func() {
+var _ = Describe("func WriteTo", func() {
 	It("passes the IO test", func() {
 		iotest.TestWrite(
 			GinkgoT(),
 			func(w io.Writer) int {
-				return MustWriteTo(
+				return WriteTo(
 					w,
 					bytes.NewBuffer([]byte("foo")),
 				)
@@ -61,12 +61,12 @@ var _ = Describe("func MustWriteTo", func() {
 	})
 })
 
-var _ = Describe("func MustFprintf", func() {
+var _ = Describe("func Fprintf", func() {
 	It("passes the IO test", func() {
 		iotest.TestWrite(
 			GinkgoT(),
 			func(w io.Writer) int {
-				return MustFprintf(
+				return Fprintf(
 					w,
 					"foo %s",
 					"bar",

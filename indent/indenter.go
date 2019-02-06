@@ -4,7 +4,7 @@ import (
 	"bytes"
 	"io"
 
-	"github.com/dogmatiq/iago"
+	"github.com/dogmatiq/iago/must"
 )
 
 // DefaultIndent is the default index prefix to use.
@@ -32,13 +32,13 @@ func NewIndenter(w io.Writer, p []byte) io.Writer {
 }
 
 func (w *indenter) Write(buf []byte) (n int, err error) {
-	defer iago.Recover(&err)
+	defer must.Recover(&err)
 
 	// keep writing so long as there's something in the buffer
 	for len(buf) > 0 {
 		// indent if we're ready to do so
 		if !w.indented {
-			iago.MustWrite(w.w, w.prefix)
+			must.Write(w.w, w.prefix)
 			w.indented = true
 		}
 
@@ -48,13 +48,13 @@ func (w *indenter) Write(buf []byte) (n int, err error) {
 		// if there are no more line break characters, simply write the remainder of
 		// the buffer and we're done
 		if i == -1 {
-			n += iago.MustWrite(w.w, buf)
+			n += must.Write(w.w, buf)
 			break
 		}
 
 		// otherwise, write the remainder of this line, including the line break
 		// character, and trim the beginning of the buffer
-		n += iago.MustWrite(w.w, buf[:i+1])
+		n += must.Write(w.w, buf[:i+1])
 		buf = buf[i+1:]
 
 		// we're ready for another indent if/when there is more content

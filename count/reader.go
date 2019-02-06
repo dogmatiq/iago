@@ -18,11 +18,14 @@ func NewReader(r io.Reader) *Reader {
 	return &Reader{r: r}
 }
 
-// Count returns the number of bytes written so far.
+// Count returns the number of bytes read so far.
 func (r *Reader) Count() int {
-	return int(
-		atomic.LoadInt64(&r.n),
-	)
+	return int(r.Count64())
+}
+
+// Count64 returns the number of bytes read so far as an int64.
+func (r *Reader) Count64() int64 {
+	return atomic.LoadInt64(&r.n)
 }
 
 func (r *Reader) Read(buf []byte) (int, error) {

@@ -32,4 +32,14 @@ var _ = Describe("type Writer", func() {
 			Expect(w.Count()).To(Equal(3))
 		})
 	})
+
+	Describe("func Count64", func() {
+		It("returns the number of bytes written", func() {
+			w := NewWriter(ioutil.Discard)
+
+			iago.MustWriteString(w, "foo")
+
+			Expect(w.Count64()).To(Equal(int64(3)))
+		})
+	})
 })

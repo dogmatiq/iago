@@ -20,9 +20,12 @@ func NewWriter(w io.Writer) *Writer {
 
 // Count returns the number of bytes written so far.
 func (w *Writer) Count() int {
-	return int(
-		atomic.LoadInt64(&w.n),
-	)
+	return int(w.Count64())
+}
+
+// Count64 returns the number of bytes written so far as an int64.
+func (w *Writer) Count64() int64 {
+	return atomic.LoadInt64(&w.n)
 }
 
 func (w *Writer) Write(buf []byte) (int, error) {

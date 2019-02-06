@@ -35,4 +35,17 @@ var _ = Describe("type Reader", func() {
 			Expect(r.Count()).To(Equal(3))
 		})
 	})
+
+	Describe("func Count64", func() {
+		It("returns the number of bytes read", func() {
+			s := strings.NewReader("foo")
+			r := NewReader(s)
+
+			buf := make([]byte, 10)
+
+			_, err := r.Read(buf)
+			Expect(err).ShouldNot(HaveOccurred())
+			Expect(r.Count64()).To(Equal(int64(3)))
+		})
+	})
 })

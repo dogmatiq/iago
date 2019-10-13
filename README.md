@@ -1,6 +1,6 @@
 # Iago
 
-[![Build Status](http://img.shields.io/travis/com/dogmatiq/iago/master.svg)](https://travis-ci.com/dogmatiq/iago)
+[![Build Status](https://github.com/dogmatiq/iago/workflows/CI/badge.svg)](https://github.com/dogmatiq/iago/actions?workflow=CI)
 [![Code Coverage](https://img.shields.io/codecov/c/github/dogmatiq/iago/master.svg)](https://codecov.io/github/dogmatiq/iago)
 [![Latest Version](https://img.shields.io/github/tag/dogmatiq/iago.svg?label=semver)](https://semver.org)
 [![GoDoc](https://godoc.org/github.com/dogmatiq/iago?status.svg)](https://godoc.org/github.com/dogmatiq/iago)

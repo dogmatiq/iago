@@ -20,7 +20,6 @@ jobs:
       run: make ci
     - name: Upload Coverage Reports
       if: success()
-      run: bash <(curl -s https://codecov.io/bash) -t "$TOKEN" -B "$REF"
+      run: bash <(curl -s https://codecov.io/bash) -t "$TOKEN" -B "${{ github.ref }}"
       env:
         TOKEN: "${{ secrets.CODECOV_TOKEN }}"
-        REF: "${{ github.ref }}"

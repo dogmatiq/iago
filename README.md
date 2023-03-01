@@ -1,9 +1,12 @@
+<div align="center">
+
 # Iago
 
-[![Build Status](https://github.com/dogmatiq/iago/workflows/CI/badge.svg)](https://github.com/dogmatiq/iago/actions?workflow=CI)
-[![Code Coverage](https://img.shields.io/codecov/c/github/dogmatiq/iago/main.svg)](https://codecov.io/github/dogmatiq/iago)
-[![Latest Version](https://img.shields.io/github/tag/dogmatiq/iago.svg?label=semver)](https://semver.org)
-[![Documentation](https://img.shields.io/badge/go.dev-reference-007d9c)](https://pkg.go.dev/github.com/dogmatiq/iago)
-[![Go Report Card](https://goreportcard.com/badge/github.com/dogmatiq/iago)](https://goreportcard.com/report/github.com/dogmatiq/iago)
-
 Iago is a set of IO utilities for Go.
+
+[![Documentation](https://img.shields.io/badge/go.dev-documentation-007d9c?&style=for-the-badge)](https://pkg.go.dev/github.com/dogmatiq/iago)
+[![Latest Version](https://img.shields.io/github/tag/dogmatiq/iago.svg?&style=for-the-badge&label=semver)](https://github.com/dogmatiq/iago/releases)
+[![Build Status](https://img.shields.io/github/actions/workflow/status/dogmatiq/iago/ci.yml?style=for-the-badge&branch=main)](https://github.com/dogmatiq/iago/actions/workflows/ci.yml)
+[![Code Coverage](https://img.shields.io/codecov/c/github/dogmatiq/iago/main.svg?style=for-the-badge)](https://codecov.io/github/dogmatiq/iago)
+
+</div>
